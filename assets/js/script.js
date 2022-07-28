@@ -2,71 +2,70 @@
 var generateBtn = document.querySelector("#generate");
 
 // Assignment code here
-var lowerCaseLettersArray = ("abcdefghijklmnopqrstuvwxyz").split("");
+var alphaArray = 'abcdefghijklmnopqrstuvwxyz';
 // console.log(lowerCaseLetters);
 
-var upperCaseLettersArray = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ").split("");
-// console.log(upperCaseLetters);
+var betaArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+// console.log(beta);
 
-var numberSetArray = ("0123456789").split("");
+var numberSetArray = '0123456789';
 // console.log(numberSet);
 
-var specialCharactersArray = ("!@#$%^&*").split("");
+var specialCharactersArray = '!@#$%^&*';
 // console.log(specialCharacters);
 
+// var alpha = 'abcdefghijklmnopqrstuvwxyz';
 
-
+var special = '!@#$%^&*?';
+var number = '0123456789';
+var temp = '';
+var password = '';
 
 function generatePassword() {
+  var results = "";
 
-var results = "";
+  var passwordLength = window.prompt("how long would you like your password");
 
-var passwordLength = window.prompt("how long would you like your password");
-console.log(passwordLength);
+  if (passwordLength >= 8 && passwordLength <= 128) {
+    var lowerCaseLetters = window.confirm("would you like upper case?");
 
-if (passwordLength >= 8 && passwordLength <=128 ) {
+    var beta = window.confirm("would you like lower case?");
 
-var lowerCaseLetters = window.confirm("would you like upper case?");
+    var numberSet = window.confirm("would you like numbers?");
 
-var upperCaseLetters = window.confirm("would you like lower case?");
+    var specialCharacters = window.confirm(
+      "would you like special characters?"
+    );
+  } else {
+    window.alert("outside of parameter, please try again.");
+    return generatePassword();
+  }
 
-var numberSet = window.confirm("would you like numbers?");
+  var people = [];
+  if (lowerCaseLetters == true) people.push(...alphaArray);
 
-var specialCharacters = window.confirm("would you like special characters?");
+  if (beta == true) people.push(...betaArray);
 
+  if (numberSet == true) people.push(...numberSetArray);
 
-} else {
-window.alert("outside of parameter, please try again.")
-return generatePassword();
+  if (specialCharacters == true) people.push(...specialCharactersArray);
+
+  if (lowerCaseLetters || beta || numberSet || specialCharacters) {
+    for (var i = 0; i < specialCharacters; i++) {
+      results += people[Math.floor(Math.random() * people.length)];
+    }
+  } else {
+    window.alert("have a min. of one variable selected to generate password..");
+    return generatePassword();
+  }
+  return results;
 }
-
-
-var people = [];
-if (lowerCaseLetters == true) people.push(...lowerCaseLettersArray);
-
-if (upperCaseLetters == true) people.push(...upperCaseLettersArray);
-
-if (numberSet == true) people.push(...numberSetArray);
-
-if (specialCharacters == true) people.push(...specialCharactersArray);
-
-if ( lowerCaseLetters || upperCaseLetters || numberSet || specialCharacters) {
-for (var i = 0; i < specialCharacters; i++) {
-results += people[Math.floor(Math.random()*people.length)];
-}
-} else {
-window.alert("have a min. of one variable selected to generate password..")
-return generatePassword();
-}
-return results;
-}
-
 
 function writePassword() {
-var password = generatePassword();
-var passwordText = document.querySelector("#password");
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
 
-passwordText.value = password;
+  passwordText.value = password;
 }
 
 generateBtn.addEventListener("click", writePassword);
