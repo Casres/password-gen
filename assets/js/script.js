@@ -58,18 +58,6 @@ var start = function () {
     temp += number;
   }
 
-//   if (low) {
-//     temp += alpha;
-//   }
-
-//   if (char) {
-//     temp += special;
-//   }
-
-//   if (num) {
-//     temp += number;
-//   }
-
   for (let i = 0; i < length; i++) {
     password += temp[Math.floor(Math.random() * temp.length)];
   }
