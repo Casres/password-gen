@@ -1,71 +1,75 @@
-// References to the #generate element
+// Create global variables
+var char, num, low, cap, length;
+var alpha = "abcdefghijklmnopqrstuvwxyz";
+var special = "!@#$%^&*?";
+var number = "0123456789";
+var temp = "";
+var password = "";
+
+// Get references to #generate element
 var generateBtn = document.querySelector("#generate");
 
-// Assignment code here
-var alphaArray = 'abcdefghijklmnopqrstuvwxyz';
-// console.log(lowerCaseLetters);
-
-var betaArray = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-// console.log(beta);
-
-var numberSetArray = '0123456789';
-// console.log(numberSet);
-
-var specialCharactersArray = '!@#$%^&*';
-// console.log(specialCharacters);
-
-// var alpha = 'abcdefghijklmnopqrstuvwxyz';
-
-var special = '!@#$%^&*?';
-var number = '0123456789';
-var temp = '';
-var password = '';
-
-function generatePassword() {
-  var results = "";
-
-  var passwordLength = window.prompt("how long would you like your password");
-
-  if (passwordLength >= 8 && passwordLength <= 128) {
-    var lowerCaseLetters = window.confirm("would you like upper case?");
-
-    var beta = window.confirm("would you like lower case?");
-
-    var numberSet = window.confirm("would you like numbers?");
-
-    var specialCharacters = window.confirm(
-      "would you like special characters?"
-    );
-  } else {
-    window.alert("outside of parameter, please try again.");
-    return generatePassword();
-  }
-
-  var people = [];
-  if (lowerCaseLetters == true) people.push(...alphaArray);
-
-  if (beta == true) people.push(...betaArray);
-
-  if (numberSet == true) people.push(...numberSetArray);
-
-  if (specialCharacters == true) people.push(...specialCharactersArray);
-
-  if (lowerCaseLetters || beta || numberSet || specialCharacters) {
-    for (var i = 0; i < specialCharacters; i++) {
-      results += people[Math.floor(Math.random() * people.length)];
-    }
-  } else {
-    window.alert("have a min. of one variable selected to generate password..");
-    return generatePassword();
-  }
-  return results;
-}
-
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
-}
-
+// Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+// Get references to #password
+var securePass = document.getElementById("password");
+
+// Write password to the #password input
+function writePassword() {
+  securePass.value = start();
+}
+
+// Prompt user to choose password criteria
+var start = function () {
+  length = window.prompt(
+    "How long would you like your password to be? Choose between 8-128."
+  );
+
+  if (isNaN(length) || length < 8 || length > 128) {
+    window.alert(
+      "Your password needs to be a number between 8-128 characters. Please try again."
+    );
+    start();
+  } else {
+    char = window.confirm(
+      "Would you like your password to contain special characters? (!@#$%^&*?)"
+    );
+    num = window.confirm("Would you like your password to contain numbers?");
+    low = window.confirm(
+      "Would you like your password to contain lower-case letters?"
+    );
+    cap = window.confirm(
+      "Would you like your password to contain upper-case letters?"
+    );
+  }
+
+  if (!char && !num && !low && !cap) {
+    window.alert(
+      "You need to select at least one character option! Please try again."
+    );
+    start();
+  }
+
+  if (cap) {
+    temp += alpha.toUpperCase();
+  }
+
+  if (low) {
+    temp += alpha;
+  }
+
+  if (char) {
+    temp += special;
+  }
+
+  if (num) {
+    temp += number;
+  }
+
+  for (let i = 0; i < length; i++) {
+    password += temp[Math.floor(Math.random() * temp.length)];
+  }
+
+  return password;
+};
